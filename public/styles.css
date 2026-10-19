@@ -67,7 +67,9 @@ h1 {
 .move-button {
   background: #1f2328;
   color: #fff;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
 }
 
 .move-button:disabled {

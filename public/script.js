@@ -41,9 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateMoveButtons(listItem, columnIndex) {
     const leftButton = listItem.querySelector('button[data-direction="left"]');
     const rightButton = listItem.querySelector('button[data-direction="right"]');
+    const taskLabel = listItem.querySelector("span")?.textContent || "task";
 
     leftButton.onclick = () => moveTask(listItem, columnIndex - 1);
     rightButton.onclick = () => moveTask(listItem, columnIndex + 1);
+    leftButton.setAttribute("aria-label", `Move ${taskLabel} left`);
+    rightButton.setAttribute("aria-label", `Move ${taskLabel} right`);
     leftButton.disabled = columnIndex === 0;
     rightButton.disabled = columnIndex === columns.length - 1;
   }
