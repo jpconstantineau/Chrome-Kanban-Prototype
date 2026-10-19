@@ -1,7 +1,18 @@
 Build a Kanban web app using vanilla HTML, CSS, and JavaScript.
 
+Implementation status (2026-10-18):
+- [x] Vanilla application in `/docs`, with modular state, rendering, persistence, drag/drop and AI.
+- [x] Column/card CRUD, keyboard and drag ordering, completion markers, and safe archive/restore.
+- [x] Combined search/label/assignee filters, inline label editing, and HMI light/dark themes.
+- [x] IndexedDB board, theme and chat persistence, with visible storage failure handling.
+- [x] Chrome Prompt API local assistant and six feature-detected WebMCP tools, with validated, confirmed changes.
+- [x] README run instructions, feature details, archive semantics, API requirements and code structure.
+- [x] 21 state/tool tests and Chrome browser integration checks, including native drag/drop, reload and storage failure.
+
+Verification limit: AI streaming/tool integration is tested with a deterministic model double. Actual local model inference and external browser-agent discovery still depend on a supported Chrome/device setup. See README for setup and testing details.
+
 Goal:
-Create a polished, usable Kanban board for personal task management that is AI enhanced with a local AI. 
+Create a polished, usable Kanban board for personal task management that is AI enhanced with a local AI.
 
 Prioritize working features, clear UX, and maintainable code over unnecessary complexity. This should feel like a real small product, not a demo with placeholder behavior.
 
@@ -11,7 +22,7 @@ Technical requirements:
 - The app must run locally without a backend:
   - either by opening a single HTML file, or
   - via a simple dev setup (for example: npm run dev with Vite or similar).
-- Persist all board data such as Cards, preferences and chat history in IndexedDB in the chrome browser. 
+- Persist all board data such as Cards, preferences and chat history in IndexedDB in the chrome browser.
 - Include a README with:
   - how to run the app
   - feature overview
@@ -50,14 +61,14 @@ Core features of Main Page (The main page is the kanban itself.):
 
 5. Theme
    - Dark/light mode toggle.
-   - Consistent styling across the whole app.  
+   - Consistent styling across the whole app.
    - Persist theme preference across reloads.
-   - The page will have a dark and light mode and the style use should be that of the "HMI" theme in this repo: https://github.com/jpconstantineau/Design-md-prototype  
+   - The page will have a dark and light mode and the style use should be that of the "HMI" theme in this repo: https://github.com/jpconstantineau/Design-md-prototype
 
 6. AI Chat
    - The side panel to the right is the Chat Window with the Local AI
-   - WebMCP's Chrome features are used to make actions on the page available to the LLM.  
-   - The page uses Chrome's Prompt API for the chatbot and LLM.  You can use https://github.com/GoogleChromeLabs/webmcp-extension as a reference implementation.   
+   - WebMCP's Chrome features are used to make actions on the page available to the LLM.
+   - The page uses Chrome's Prompt API for the chatbot and LLM.  You can use https://github.com/GoogleChromeLabs/webmcp-extension as a reference implementation.
 
 
 UX expectations:
@@ -92,4 +103,4 @@ Before finishing, review the code to confirm:
 - Archive and restore flow is implemented
 - Search and filters (label, assignee) combine correctly in the filtering logic
 - Dark/light mode and board data persist
-- README includes run instructions and feature overview 
+- README includes run instructions and feature overview

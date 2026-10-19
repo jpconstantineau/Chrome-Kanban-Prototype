@@ -1,35 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chrome-Kanban-Prototype</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main>
-      <h1>Chrome-Kanban-Prototype</h1>
-      <p class="subtitle">Static vanilla HTML/CSS/JS page for GitHub Pages.</p>
-      <section class="board" aria-label="Kanban board">
-        <article class="column">
-          <h2>To Do</h2>
-          <ul id="todo-list"></ul>
-        </article>
-        <article class="column">
-          <h2>Doing</h2>
-          <ul id="doing-list"></ul>
-        </article>
-        <article class="column">
-          <h2>Done</h2>
-          <ul id="done-list"></ul>
-        </article>
-      </section>
-      <form id="task-form">
-        <label for="task-input">New task</label>
-        <input id="task-input" name="task" type="text" required />
-        <button type="submit">Add to To Do</button>
-      </form>
-    </main>
-    <script src="./script.js"></script>
-  </body>
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#202428">
+  <meta name="description" content="A private, local-first Kanban board with an on-device AI assistant.">
+  <title>Kanban — Personal operations</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="Kanban home"><span class="brand-icon" aria-hidden="true">▥</span> KANBAN <span class="brand-divider">/</span> <span class="eyebrow">PERSONAL OPERATIONS</span></a>
+    <div class="header-actions"><span class="local-badge"><span class="status-dot"></span> LOCAL WORKSPACE</span><button id="theme-toggle" aria-label="Switch to light theme">Light mode</button></div>
+  </header>
+  <main class="workspace">
+    <section class="board-workspace" aria-labelledby="board-title">
+      <div class="board-heading"><div><p class="eyebrow">WORKSPACE / 01</p><h1 id="board-title">Make room for progress.</h1><p class="muted">A clear view of what’s next. Everything stays on this device.</p></div><button class="primary" id="new-card">+ New card</button></div>
+      <div class="toolbar" aria-label="Board filters">
+        <label class="search-field"><span class="sr-only">Search cards</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search title or description…" autocomplete="off"></label>
+        <label><span class="sr-only">Filter by label</span><select id="label-filter"><option value="">All labels</option></select></label>
+        <label><span class="sr-only">Filter by assignee</span><select id="assignee-filter"><option value="">All assignees</option></select></label>
+        <button id="clear-filters" hidden>Clear filters</button>
+        <button id="open-archive">Archive <span id="archive-count" class="count">0</span></button>
+      </div>
+      <div class="board-meta"><span id="board-summary" class="eyebrow">LOADING WORKSPACE</span><button id="new-column" class="text-button">+ Add column</button></div>
+      <div id="storage-error" class="error-banner" role="alert" hidden></div>
+      <div id="board" class="board" aria-label="Kanban board" aria-busy="true"></div>
+      <footer class="board-footer"><span><span class="status-dot"></span> <span id="save-status" role="status">Opening local storage…</span></span><span>Drag to arrange · Open a card for keyboard controls</span></footer>
+    </section>
+    <aside class="assistant" aria-labelledby="assistant-title">
+      <header class="assistant-heading"><div><p class="eyebrow">ON-DEVICE INTELLIGENCE</p><h2 id="assistant-title"><span aria-hidden="true">✳</span> Local assistant</h2></div><button id="chat-clear" class="text-button" aria-label="Clear chat history">Clear</button></header>
+      <div class="ai-connection"><p id="ai-status" role="status">Checking local AI availability…</p><button id="ai-enable">Enable local AI</button></div>
+      <div id="chat-log" class="chat-log" role="log" aria-label="Conversation" aria-live="polite"></div>
+      <form id="chat-form" class="chat-composer"><label for="chat-input" class="sr-only">Message your local assistant</label><textarea id="chat-input" rows="3" maxlength="4000" placeholder="Plan your next move…" disabled></textarea><div><span class="muted">Ctrl + Enter to send</span><button id="chat-send" class="primary" type="submit" disabled>Send ↗</button></div></form>
+      <p class="privacy-note">Powered by Chrome’s local model. Board changes are yours to approve.</p>
+    </aside>
+  </main>
+  <dialog id="card-dialog" aria-labelledby="card-dialog-title">
+    <form id="card-form">
+      <div class="dialog-heading"><div><p class="eyebrow">TASK DETAILS</p><h2 id="card-dialog-title">New card</h2></div><button type="button" data-close aria-label="Close card editor">✕</button></div>
+      <input id="card-id" type="hidden">
+      <label for="card-title">Title <span class="muted">(required)</span></label><input id="card-title" required maxlength="160" placeholder="What needs to happen?">
+      <label for="card-description">Description</label><textarea id="card-description" rows="4" maxlength="5000" placeholder="Add context, a checklist, or a useful detail…"></textarea>
+      <div class="form-row"><div><label for="card-column">Column</label><select id="card-column" required></select></div><div><label for="card-assignee">Assignee</label><input id="card-assignee" maxlength="80" placeholder="Unassigned" list="assignee-suggestions"><datalist id="assignee-suggestions"></datalist></div></div>
+      <fieldset><legend>Labels <span class="muted">· click a label to rename</span></legend><div id="card-labels" class="label-editor"></div><div class="label-adder"><label class="sr-only" for="new-label-name">New label name</label><input id="new-label-name" maxlength="40" placeholder="Label name"><label class="sr-only" for="new-label-color">Label color</label><input id="new-label-color" type="color" value="#38bdf8"><button id="add-label" type="button">+ Add label</button></div></fieldset>
+      <p id="card-form-error" class="form-error" role="alert"></p>
+      <div class="dialog-footer"><button id="archive-card" class="danger" type="button">Archive card</button><div><button type="button" data-close>Cancel</button><button type="submit" class="primary">Save card</button></div></div>
+    </form>
+  </dialog>
+  <dialog id="column-dialog" aria-labelledby="column-dialog-title"><form id="column-form"><div class="dialog-heading"><h2 id="column-dialog-title">New column</h2><button type="button" data-close aria-label="Close column editor">✕</button></div><input id="column-id" type="hidden"><label for="column-name">Column name</label><input id="column-name" required maxlength="60"><label class="check-label"><input id="column-done" type="checkbox"> Mark cards in this column as complete</label><p class="muted">Archiving a column keeps all its cards together. Restore it from the archive at any time.</p><p id="column-form-error" class="form-error" role="alert"></p><div class="dialog-footer"><button id="archive-column" class="danger" type="button">Archive column</button><div><button type="button" data-close>Cancel</button><button class="primary" type="submit">Save column</button></div></div></form></dialog>
+  <dialog id="archive-dialog" aria-labelledby="archive-title"><div class="dialog-heading"><div><p class="eyebrow">NOT GONE. JUST PUT AWAY.</p><h2 id="archive-title">Archive</h2></div><button data-close aria-label="Close archive">✕</button></div><p class="muted">Restore a column with its cards, or return an individual card to the board.</p><div id="archive-items"></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><p>This board needs JavaScript enabled to save and manage your cards.</p></noscript>
+  <script type="module" src="./script.js"></script>
+</body>
 </html>

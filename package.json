@@ -1,0 +1,14 @@
+{
+  "name": "chrome-kanban",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/state.test.js tests/ai.test.js",
+    "test:browser": "node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}
