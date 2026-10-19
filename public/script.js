@@ -11,12 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const columns = [todoList, doingList, doneList];
 
-  function createMoveButton(label, direction) {
+  function createMoveButton(label, direction, ariaLabel) {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = label;
     button.className = "move-button";
     button.dataset.direction = direction;
+    button.setAttribute("aria-label", ariaLabel);
     return button;
   }
 
@@ -29,8 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     actions.className = "task-actions";
     listItem.append(label, actions);
 
-    const moveLeft = createMoveButton("←", "left");
-    const moveRight = createMoveButton("→", "right");
+    const moveLeft = createMoveButton("←", "left", "Move task left");
+    const moveRight = createMoveButton("→", "right", "Move task right");
 
     actions.append(moveLeft, moveRight);
     updateMoveButtons(listItem, columnIndex);
