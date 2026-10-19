@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chrome Kanban Prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Chrome Kanban Prototype</h1>
+      <p class="subtitle">Static vanilla HTML/CSS/JS page for GitHub Pages.</p>
+      <section class="board" aria-label="Kanban board">
+        <article class="column">
+          <h2>To Do</h2>
+          <ul id="todo-list"></ul>
+        </article>
+        <article class="column">
+          <h2>Doing</h2>
+          <ul id="doing-list"></ul>
+        </article>
+        <article class="column">
+          <h2>Done</h2>
+          <ul id="done-list"></ul>
+        </article>
+      </section>
+      <form id="task-form">
+        <label for="task-input">New task</label>
+        <input id="task-input" name="task" type="text" required />
+        <button type="submit">Add to To Do</button>
+      </form>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>
