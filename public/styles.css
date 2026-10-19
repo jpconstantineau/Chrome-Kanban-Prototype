@@ -66,12 +66,18 @@ h1 {
 
 .move-button {
   background: #1f2328;
+  color: #fff;
   padding: 0.25rem 0.5rem;
 }
 
 .move-button:disabled {
   background: #8c959f;
   cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid #0969da;
+  outline-offset: 2px;
 }
 
 form {
