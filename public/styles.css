@@ -53,12 +53,31 @@ h1 {
   border-radius: 6px;
   margin-bottom: 0.5rem;
   padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.move-button {
+  background: #1f2328;
+  padding: 0.25rem 0.5rem;
+}
+
+.move-button:disabled {
+  background: #8c959f;
+  cursor: not-allowed;
 }
 
 form {
   display: flex;
   gap: 0.75rem;
-  align-items: end;
+  align-items: flex-end;
   flex-wrap: wrap;
 }
 
