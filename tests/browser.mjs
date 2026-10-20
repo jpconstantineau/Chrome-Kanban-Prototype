@@ -18,6 +18,9 @@ try {
   await page.goto(url);
   await page.locator('#board[aria-busy="false"]').waitFor();
   assert.equal(await page.locator('.column').count(), 3);
+  assert.equal(await page.locator('#board-title').textContent(), 'My board');
+  await page.keyboard.press('Tab');
+  assert.equal(await page.locator('.brand').evaluate((element) => element === document.activeElement && getComputedStyle(element).outlineStyle === 'solid'), true, 'keyboard focus must be visible through the external stylesheet');
   assert.match(await page.locator('#ai-status').textContent(), /unavailable/);
   assert.equal(await page.locator('#chat-input').isDisabled(), true);
   await mkdir('test-results', { recursive: true });
@@ -128,6 +131,13 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await page.screenshot({ path: 'test-results/mobile.png', fullPage: true });
+  await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, '200% text must remain inside the mobile layout');
+  await page.locator('#new-card').click();
+  assert.equal(await page.locator('#card-dialog').isVisible(), true);
+  assert.equal(await page.locator('#card-dialog').evaluate((dialog) => dialog.scrollWidth <= dialog.clientWidth), true, 'card editor must contain enlarged text');
+  await page.getByRole('button', { name: 'Close card editor', exact: true }).click();
+  await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
   assert.deepEqual(errors, []);
 
   // Browser-level AI contract with a deterministic model double; no real inference claimed.

@@ -43,7 +43,7 @@ export function renderBoard(root, state, filters) {
   const nodes = [];
   if (!columns.length) {
     const empty = element('div', 'board-empty');
-    empty.append(element('span', 'empty-glyph', '▥'), element('h2', '', 'A fresh start.'), element('p', 'muted', 'Add a column above, or restore one from the archive.'));
+    empty.append(element('span', 'empty-glyph', '▥'), element('h2', '', 'No columns'), element('p', 'muted', 'Add a column above, or restore one from the archive.'));
     nodes.push(empty);
   }
   if (filtering && !cards.length) nodes.push(element('p', 'no-results', 'No cards match these filters. Clear filters to see your whole board.'));
@@ -78,7 +78,7 @@ export function renderBoard(root, state, filters) {
       order.append(up, down); bottom.append(assignee, order); article.append(bottom); list.append(article);
     });
     if (!columnCards.length) {
-      const empty = element('div', 'column-empty'); empty.append(element('span', 'empty-glyph', column.done ? '✓' : '+'), element('p', '', filtering ? 'No matching cards' : column.done ? 'Good things take a little work.' : 'A little space for what’s next.'), element('p', 'muted', 'Drop a card here or add one below.')); list.append(empty);
+      const empty = element('div', 'column-empty'); empty.append(element('span', 'empty-glyph', column.done ? '✓' : '+'), element('p', '', filtering ? 'No matching cards' : column.done ? 'No completed cards' : 'No cards'), element('p', 'muted', 'Drop a card here or add one below.')); list.append(empty);
     }
     const add = action('+ Add card', `Add card to ${column.name}`, { addCard: column.id, focus: `add-${column.id}` }); add.className = 'add-card';
     section.append(header, list, add); nodes.push(section);
@@ -95,7 +95,7 @@ export function renderArchive(root, state) {
     const restore = action('Restore', `Restore ${title}`, { restore: id, kind });
     row.append(copy, restore); root.append(row);
   }
-  archivedColumns.forEach((column) => row('column', column.id, column.name, `Column · ${state.cards.filter((card) => card.columnId === column.id && !card.archived).length} cards return with it`));
-  cards.forEach((card) => row('card', card.id, card.title, `Card · ${state.columns.find((column) => column.id === card.columnId)?.name || 'Archived column'}${!card.archived ? ' (column archived)' : ''}`));
-  if (!archivedColumns.length && !cards.length) root.append(element('p', 'archive-empty', 'All clear. Archived cards and columns will appear here.'));
+  archivedColumns.forEach((column) => row('column', column.id, column.name, `Column: ${state.cards.filter((card) => card.columnId === column.id && !card.archived).length} cards return with it`));
+  cards.forEach((card) => row('card', card.id, card.title, `Card: ${state.columns.find((column) => column.id === card.columnId)?.name || 'Archived column'}${!card.archived ? ' (column archived)' : ''}`));
+  if (!archivedColumns.length && !cards.length) root.append(element('p', 'archive-empty', 'No archived cards or columns.'));
 }

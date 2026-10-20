@@ -1,4 +1,4 @@
-# Kanban — Personal operations
+# Kanban
 
 A vanilla HTML/CSS/JavaScript Kanban workspace with IndexedDB persistence, a local Chrome AI assistant, and WebMCP board tools. All application source lives in **`docs/`**. There is no build step, backend, account, runtime dependency, or remote AI service.
 
@@ -20,6 +20,8 @@ Open **http://127.0.0.1:4173** in desktop Chrome. No `npm install` is needed to 
 - Use **Add column** or a column’s **···** button to add/rename a column or set its completion status. Drag a header to reorder columns, or use its ←/→ buttons. Column names allow 60 characters. The default Done column shows a checkmark on its cards; this status survives renaming.
 - Search title/description and filter by label and assignee together. All three filters must match. **Clear filters** returns the complete active board.
 - Switch between the reference [HMI theme](https://github.com/jpconstantineau/Design-md-prototype)’s light and dark palettes. The interface uses its flat outlined surfaces, compact controls, Segoe UI typography, and restrained state colors.
+
+The board opens directly on your cards and counts. Search and filters stay above the columns, the archive and theme controls sit in the header, and the local assistant stays to the right (below the board on narrow screens). Empty columns use task-specific instructions rather than slogans.
 
 ## Archive and restore
 
@@ -74,3 +76,9 @@ Coverage includes state validation, combined filters, ordering, archive recovery
 ## GitHub Pages
 
 In repository **Settings → Pages**, select **Deploy from a branch**, choose the branch, and select **`/docs`**. All assets use relative paths, so the app also works under the repository subpath. No GitHub Actions or build pipeline is required.
+
+## Repository skills
+
+The repository includes [avoid-ai-writing](.agents/skills/avoid-ai-writing/SKILL.md) and [avoid-ai-design](.agents/skills/avoid-ai-design/SKILL.md), with their reference files and scanners. They are available to compatible agents from `.agents/skills/` on the next turn. See [source revisions and licenses](.agents/skills/SOURCES.md) and [project instructions](AGENTS.md).
+
+Run the design scanner with `node .agents/skills/avoid-ai-design/scripts/detect.mjs docs/`. Its per-file focus check does not follow external stylesheets, so `index.html` documents that exception; the browser checks verify the actual focus outline.

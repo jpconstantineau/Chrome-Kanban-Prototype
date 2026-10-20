@@ -58,7 +58,9 @@ function render() {
   const total = visibleCards(state).length;
   const shown = visibleCards(state, filters).length;
   const complete = visibleCards(state).filter((card) => activeColumns().find((column) => column.id === card.columnId)?.done).length;
-  $('board-summary').textContent = `${shown} OF ${total} CARDS / ${complete} COMPLETE`;
+  $('board-summary').textContent = Object.values(filters).some(Boolean)
+    ? `${shown} matching of ${total} cards`
+    : `${total} ${total === 1 ? 'card' : 'cards'}, ${complete} complete`;
   $('archive-count').textContent = state.columns.filter((column) => column.archived).length + state.cards.filter((card) => card.archived).length;
   if ($('archive-dialog').open) renderArchive($('archive-items'), state);
   if (focused) [...$('board').querySelectorAll('[data-focus]')].find((el) => el.dataset.focus === focused)?.focus();
